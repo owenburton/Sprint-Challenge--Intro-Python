@@ -79,9 +79,32 @@ for c in cities:
 def cityreader_stretch(lat1, lon1, lat2, lon2, cities=[]):
   # within will hold the cities that fall within the specified region
   within = []
-
-  # TODO Ensure that the lat and lon valuse are all floats
+  # TODO Ensure that the lat and lon values are all floats
+  lat1 = float(lat1)
+  lont1 = float(lon1)
+  lat2 = float(lat2)
+  lont2 = float(lon2)
   # Go through each city and check to see if it falls within 
   # the specified coordinates.
+  for c in cities:
+    # below are each of the possible ways the person could input specifications for the square
+    if lat1<lat2 and lon1<lon2:
+      if lat1<c.lat<lat2 and lon1<c.lon<lon2:
+        within.append(c)
+  
+    if lat2<lat1 and lon2<lon1:
+      if lat2<c.lat<lat1 and lon2<c.lon<lon1:
+        within.append(c)
+  
+    if lat1<lat2 and lon2<lon1:
+      if lat1<c.lat<lat2 and lon2<c.lon<lon1:
+        within.append(c)
+    
+    if lat2<lat1 and lon1<lon2:
+      if lat2<c.lat<lat1 and lon1<c.lon<lon2:
+        within.append(c)
 
   return within
+
+  ### Prompt says within the coordinate square, so I'm 
+  ### not including those that fall on the edge
