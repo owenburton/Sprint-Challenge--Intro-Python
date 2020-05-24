@@ -1,6 +1,17 @@
+import csv
+
 # Create a class to hold a city location. Call the class "City". It should have
 # fields for name, lat and lon (representing latitude and longitude).
 
+class City():
+  def __init__(self, name, lat, lon):
+    self.name = name 
+    self.lat = lat 
+    self.lon = lon
+  
+  # def __str__(self):
+  #   d = self.__dict__
+  #   return '\n'.join([f'{key} = {d.get(key)}' for key in d])
 
 # We have a collection of US cities with population over 750,000 stored in the
 # file "cities.csv". (CSV stands for "comma-separated values".)
@@ -20,7 +31,11 @@ def cityreader(cities=[]):
   # TODO Implement the functionality to read from the 'cities.csv' file
   # For each city record, create a new City instance and add it to the 
   # `cities` list
-    
+  with open('cities.csv') as f:
+    f_reader = csv.reader(f)
+    next(f_reader, None)  # skip the header
+    for row in f_reader:
+      cities.append(City(row[0], float(row[3]), float(row[4])))
     return cities
 
 cityreader(cities)
@@ -28,6 +43,7 @@ cityreader(cities)
 # Print the list of cities (name, lat, lon), 1 record per line.
 for c in cities:
     print(c)
+# print(cities)
 
 # STRETCH GOAL!
 #
@@ -63,9 +79,32 @@ for c in cities:
 def cityreader_stretch(lat1, lon1, lat2, lon2, cities=[]):
   # within will hold the cities that fall within the specified region
   within = []
-
-  # TODO Ensure that the lat and lon valuse are all floats
+  # TODO Ensure that the lat and lon values are all floats
+  lat1 = float(lat1)
+  lont1 = float(lon1)
+  lat2 = float(lat2)
+  lont2 = float(lon2)
   # Go through each city and check to see if it falls within 
   # the specified coordinates.
+  for c in cities:
+    # below are each of the possible ways the person could input specifications for the square
+    if lat1<lat2 and lon1<lon2:
+      if lat1<c.lat<lat2 and lon1<c.lon<lon2:
+        within.append(c)
+  
+    if lat2<lat1 and lon2<lon1:
+      if lat2<c.lat<lat1 and lon2<c.lon<lon1:
+        within.append(c)
+  
+    if lat1<lat2 and lon2<lon1:
+      if lat1<c.lat<lat2 and lon2<c.lon<lon1:
+        within.append(c)
+    
+    if lat2<lat1 and lon1<lon2:
+      if lat2<c.lat<lat1 and lon1<c.lon<lon2:
+        within.append(c)
 
   return within
+
+  ### Prompt says within the coordinate square, so I'm 
+  ### not including those that fall on the edge
